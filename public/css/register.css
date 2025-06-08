@@ -1,0 +1,213 @@
+ * {
+   box-sizing: border-box;
+ }
+
+ html,
+ body {
+   margin: 0;
+   padding: 0;
+   width: 100%;
+   height: 100%;
+   overflow: hidden;
+   font-family: Arial, sans-serif;
+ }
+
+ body {
+   background-image: url('../img/registro.webp');
+   background-size: cover;
+   background-repeat: no-repeat;
+   background-position: center;
+ }
+
+ .logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 350px;
+  height: 70px;
+  border: yellow solid 2px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 0, 0.3); /* fondo amarillo translúcido */
+  animation: glowYellow 2s ease-in-out infinite;
+}
+
+@keyframes glowYellow {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 255, 0, 0.3); /* sombra amarilla suave */
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 255, 0, 0.9); /* brillo fuerte */
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(255, 255, 0, 0.3);
+  }
+}
+
+
+
+
+  .imglogo {
+      height: 60px;
+      width: 60px;
+      border-radius: 50%;
+      filter: drop-shadow(0 0 10px rgba(0, 123, 255, 0.8));
+  }
+
+  .text-logo {
+    color: white;
+    text-shadow: 0 0 10px rgba(0, 123, 255, 0.9);
+     margin-left: 10px;
+     color: white;
+     font-size: 1.7rem;
+     font-weight: bold;
+     margin-bottom: 0px;
+     margin-top: 10px;
+ }
+
+
+ .navbar {
+   background-color: rgba(0, 0, 0, 0.25);
+   padding: 1rem 2rem 30px;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   width: 100%;
+   height: auto;
+   box-sizing: border-box;
+ }
+
+ .navbar .logo {
+   font-size: 1.5rem;
+   font-weight: bold;
+   letter-spacing: 1px;
+ }
+
+ .navbar .actions a {
+   margin-left: 1rem;
+   padding: 0.5rem 1rem;
+   background-color: rgba(243, 247, 15, 0.8);
+   border-radius: 5px;
+   text-decoration: none;
+   color: white;
+   font-weight: 500;
+   transition: relative;
+   background-color: 0.3px;
+   height: 55px;
+   width: 200px;
+ }
+
+ .navbar .actions a:hover {
+   background-color: yellow;
+ }
+
+ .overlay {
+   height: calc(100% - 120px);
+   /* altura del cuerpo visible menos navbar */
+   display: flex;
+   justify-content: start;
+   align-items: center;
+   padding: 0 20px;
+   box-sizing: border-box;
+ }
+
+ .form-container {
+   background-color: rgba(255, 255, 255, 0.1);
+   padding: 1.5rem;
+   border-radius: 1rem;
+   box-shadow: 0 4px 20px rgba(0, 0, 0, 1.9);
+   width: 100%;
+   max-width: 400px;
+   overflow: hidden;
+ }
+
+ h2 {
+   text-align: left;
+   margin-bottom: 1rem;
+   color: black;
+ }
+
+ input[type="text"],
+ input[type="email"],
+ input[type="password"],
+ select {
+   width: 90%;
+   padding: 0.5rem;
+   margin-bottom: 1rem;
+   border: 1px solid #ccc;
+   border-radius: 0.375rem;
+   font-size: 1rem;
+   background-color: rgba(255, 255, 255, 0.6);
+ }
+
+ select:hover {
+   background-color: yellow;
+   cursor: pointer;
+ }
+
+ option {
+   background-color: rgba(255, 255, 255, 0.6);
+ }
+
+ .actions {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+ }
+
+ .actions a {
+   font-size: 1.3rem;
+   color: #ddd;
+   text-decoration: underline;
+   height: 40px;
+   width: 200px;
+   padding-right: 0px;
+   padding-left: 8px;
+   /* Centrado horizontal y vertical */
+   display: flex;
+   align-items: center;
+   /* centra verticalmente */
+   justify-content: center;
+   /* centra horizontalmente */
+   text-align: center;
+   /* centra texto en caso de que haya saltos de línea */
+ }
+
+ button {
+   background-color: black;
+   color: blue;
+   padding: 0.4rem 1rem;
+   border: none;
+   border-radius: 0.375rem;
+   cursor: pointer;
+   font-weight: 600;
+   font-size: 0.875rem;
+ }
+
+ button:hover {
+   background-color: yellow;
+   color: blue;
+ }
+
+ /* Responsividad */
+ @media (max-width: 768px) {
+   .overlay {
+     padding-top: 20px;
+     padding-bottom: 20px;
+   }
+
+   .form-container {
+     max-width: 100%;
+   }
+
+   .navbar {
+     flex-direction: column;
+     align-items: flex-start;
+     gap: 1rem;
+   }
+
+   .navbar .actions {
+     width: 100%;
+     justify-content: space-between;
+     flex-wrap: wrap;
+   }
+ }
