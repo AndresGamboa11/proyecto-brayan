@@ -34,6 +34,15 @@ Route::get('/dashboard-admin', [AutoController::class, 'dashboardAdmin'])
 Route::post('/autos', [AutoController::class, 'store'])->name('autos.store');
 
 
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('autos', AutoController::class);
+    Route::delete('/autos/{id}', [AutoController::class, 'destroy'])->name('autos.destroy');
+    Route::get('/autos/{id}', [AutoController::class, 'show'])->name('autos.show');
+
+});
+
+
 Route::get('/catalogo/{marca}', [CatalogoController::class, 'mostrarPorMarca'])
     ->name('catalogo.marca');
 

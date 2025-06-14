@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Auto;
+use Illuminate\Support\Facades\File;
 
 class AutoController extends Controller
 {
@@ -18,7 +19,11 @@ class AutoController extends Controller
             $autos = Auto::all(); // 
             return view('dashboard-admin', compact('autos'));
         }
-        
+        public function show($id)
+        {
+            $auto = Auto::findOrFail($id);
+            return view('autos.show', compact('auto'));
+        }
     public function store(Request $request)
     {
         $request->validate([
@@ -49,5 +54,22 @@ class AutoController extends Controller
         $auto = Auto::findOrFail($id);
         return view('autos.edit', compact('auto'));
     }
+    public function destroy($id)
+    {
+        $auto = Auto::findOrFail($id);
+
+        // Elimina la imagen físicamente si existe
+        $ruta = public_path('uploads/' . $auto->imagen);
+        if (File::exists($ruta)) {
+
+            File::delete($ruta);
+        }
+
+        $auto->delete();
+
+        return redirect()->route('dashboard-admin')->with([
+            'success' => 'Auto eliminado correctamente.',
+            'marca' => strtolower($auto->marca)
+        ]);}
 
 }

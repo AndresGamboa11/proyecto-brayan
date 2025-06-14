@@ -5,7 +5,6 @@
   <title>Dashboard Admin - Mitra Cars</title>
   <link rel="stylesheet" href="{{ asset('css/dashboard-admin.css') }}">
   <style>
-   
     body {
         margin: 0;
         font-family: 'Segoe UI', sans-serif;
@@ -42,61 +41,113 @@
 
     .container {
       padding: 2rem;
+      text-align: center;
+      color: white;
+      
     }
 
     h1 {
-      margin-bottom: 1rem;
-      color: #2f3542;
+      margin-bottom: 2rem;
+      color: #0b41b6;
+      font-size: 60px;
     }
 
-    .btn.add {
-      background-color: #2ed573;
-      color: white;
-      border: none;
-      padding: 0.6rem 1.2rem;
-      margin-bottom: 1rem;
-      border-radius: 6px;
+    .brand-container {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .brand-card {
+      width: 300px;
+      height: 300px; 
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+      font-size: 50px;
       cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .brand-card:hover {
+      transform: scale(1.05);
+    }
+
+    .brand-card img {
+      width: 100%;
+      height: 300px; /* Altura fija */
+      object-fit: cover; /* Recorta sin deformar */
+      border-radius: 12px;
+    }
+
+    .brand-card p {
+      margin-top: 0.5rem;
       font-weight: bold;
     }
 
-    /* Modificación aquí: contenedor flex sin espacios */
-    .catalogo {
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.6);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 10px;
+      max-width: 90%;
+      max-height: 90%;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #57606f;
+    }
+
+    .modal-autos {
       display: flex;
       flex-wrap: wrap;
+      gap: 1rem;
       justify-content: center;
-      gap: 0;
+      margin-top: 1rem;
     }
 
     .card {
-      background-color: rgb(185, 181, 181, 0.4);
+      width: 300px;
+      background-color: #f1f2f6;
       border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       padding: 1rem;
       text-align: center;
-      transition: 0.3s ease;
-      width: 400px;
-      margin: 10px; /* sin margen para que queden pegadas */
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
     .card img {
-      width: 400px;
-      height: 400px;
+      width: 100%;
+      height: 200px;
       object-fit: cover;
       border-radius: 8px;
-      cursor: pointer;
-    }
-
-    .card h3 {
-      margin: 0.8rem 0;
-      font-size: 1.2rem;
-      color: #2f3542;
     }
 
     .acciones {
       display: flex;
       justify-content: center;
       gap: 0.5rem;
+      margin-top: 1rem;
     }
 
     .btn {
@@ -117,59 +168,27 @@
       color: white;
     }
 
-    /* Modal */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 10;
-      left: 0; top: 0;
-      width: 100%; height: 100%;
-      background-color: rgba(0,0,0,0.6);
-      align-items: center;
-      justify-content: center;
-    }
-
-    .modal-content {
-      background-color: white;
-      padding: 2rem;
-      border-radius: 10px;
-      max-width: 500px;
-      width: 90%;
-      position: relative;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .modal-content img {
-      width: 100%;
-      border-radius: 8px;
-      margin-bottom: 1rem;
-    }
-
-    .modal-content h2 {
-      margin-top: 0;
-      color: #2f3542;
-    }
-
-    .modal-content p {
-      margin: 0.5rem 0;
-    }
-
-    .close {
-      position: absolute;
-      top: 1rem; right: 1rem;
-      font-size: 1.5rem;
+    .btn.add {
+      background-color: #2ed573;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      margin: 1rem auto;
+      border-radius: 6px;
       cursor: pointer;
-      color: #57606f;
+      font-weight: bold;
     }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
+    .success{
+      background-color: #2ed573; 
+      color: white; 
+      padding: 10px; 
+      border-radius: 5px; 
+      margin-bottom: 1rem; 
+      height: 20px;
     }
   </style>
 </head>
 <body>
-
 <header class="navbar">
   <div class="logo">Mitra Cars</div>
   <form method="POST" action="{{ route('logout') }}">
@@ -177,37 +196,52 @@
     <button type="submit" class="logout">Cerrar sesión</button>
   </form>
 </header>
-
 <main class="container">
-  <h1>Catálogo de Taxis</h1>
-  <button class="btn add" onclick="document.getElementById('modal-form').style.display='flex'">+ Añadir Auto</button>
-
-  <div class="catalogo">
-    @foreach ($autos as $auto)
-      <div class="card">
-        <img src="{{ asset('uploads/' . $auto->imagen) }}" alt="{{ $auto->marca }}" onclick="openModal('{{ asset('uploads/' . $auto->imagen) }}', '{{ $auto->marca }} {{ $auto->modelo }}', '{{ $auto->precio }}', `{{ $auto->descripcion }}`)">
-        <h3>{{ $auto->marca }} {{ $auto->modelo }}</h3>
-        <div class="acciones">
-          <button class="btn edit">Editar</button>
-          <button class="btn delete">Eliminar</button>
-        </div>
-      </div>
-    @endforeach
+  <h1>Marcas de Taxis</h1>
+  <div class="brand-container">
+    @if(session('success'))
+    <div class="success">
+      {{ session('success') }}
+    </div>
+    @endif
+    <div class="brand-card" onclick="openBrandModal('hiunday')">
+      <img src="{{ asset('img/Hyunday.jpg') }}" alt="Hiunday">
+      <p>Hiunday</p>
+    </div>
+    <div class="brand-card" onclick="openBrandModal('chevrolet')">
+      <img src="{{ asset('img/atos1.jpg') }}" alt="Chevrolet">
+      <p>Chevrolet</p>
+    </div>
+    <div class="brand-card" onclick="openBrandModal('renoult')">
+      <img src="{{ asset('img/spark.jpg') }}" alt="Renoult">
+      <p>Renoult</p>
+    </div>
   </div>
 </main>
-
-<!-- Modal para ver detalles -->
-<div id="modal" class="modal">
+<div id="brandModal" class="modal">
   <div class="modal-content">
     <span class="close" onclick="closeModal()">&times;</span>
-    <img id="modal-img" src="">
-    <h2 id="modal-title"></h2>
-    <p><strong>Precio:</strong> <span id="modal-price"></span></p>
-    <p id="modal-description"></p>
+    <h2 id="brandTitle">Marca</h2>
+    <button class="btn add" onclick="document.getElementById('modal-form').style.display='flex'">+ Añadir Auto</button>
+    <div class="modal-autos" id="autosContainer">
+      @foreach ($autos as $auto)
+        <div class="card" data-marca="{{ strtolower($auto->marca) }}">
+          <img src="{{ asset('uploads/' . $auto->imagen) }}" alt="{{ $auto->marca }}">
+          <h3>{{ $auto->marca }} {{ $auto->modelo }}</h3>
+          <p><strong>${{ $auto->precio }}</strong></p>
+          <div class="acciones">
+            <a href="{{ route('autos.edit', $auto->id) }}" class="btn edit">Editar</a>
+            <form method="POST" action="{{ route('autos.destroy', $auto->id) }}">
+              @csrf
+              @method('DELETE')
+              <button type="submit" class="btn delete">Eliminar</button>
+            </form>
+          </div>
+        </div>
+      @endforeach
+    </div>
   </div>
 </div>
-
-<!-- Modal para añadir auto -->
 <div id="modal-form" class="modal">
   <div class="modal-content">
     <span class="close" onclick="document.getElementById('modal-form').style.display='none'">&times;</span>
@@ -232,25 +266,31 @@
     </form>
   </div>
 </div>
-
 <script>
-  function openModal(img, title, price, description) {
-    document.getElementById('modal-img').src = img;
-    document.getElementById('modal-title').innerText = title;
-    document.getElementById('modal-price').innerText = price;
-    document.getElementById('modal-description').innerText = description;
-    document.getElementById('modal').style.display = "flex";
-  }
-
-  function closeModal() {
-    document.getElementById('modal').style.display = "none";
-  }
-
-  window.onclick = function(event) {
-    if (event.target.classList.contains('modal')) {
-      event.target.style.display = "none";
+  function openBrandModal(brand) {
+      location.href = `#${brand}`; // solo para forzar referencia
+      setTimeout(() => {
+        document.getElementById('brandTitle').innerText = brand.charAt(0).toUpperCase() + brand.slice(1);
+        document.getElementById('brandModal').style.display = 'flex';
+        let cards = document.querySelectorAll('#autosContainer .card');
+        cards.forEach(card => {
+          card.style.display = card.getAttribute('data-marca') === brand ? 'block' : 'none';
+        });
+      }, 3); // espera para que recargue
     }
-  }
+
+    function closeModal() {
+      document.getElementById('brandModal').style.display = 'none';
+    }
+    window.addEventListener('DOMContentLoaded', () => {
+      openBrandModal('{{ session('marca') }}');
+    });
+    // Ocultar modal al hacer clic fuera del contenido
+    window.onclick = function(e) {
+      if (e.target.classList.contains('modal')) {
+        e.target.style.display = 'none';
+      }
+    }
 </script>
 
 </body>
